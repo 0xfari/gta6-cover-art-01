@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunset Cover Studio — GTA-style poster maker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="sun" aria-hidden="true"></span>
+    <div>
+      <h1>SUNSET COVER STUDIO</h1>
+      <p>GTA-style poster maker &middot; photos never leave your machine</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <div class="seg" id="sizePicker" role="group" aria-label="Export size">
+      <button type="button" data-size="square">Square</button>
+      <button type="button" data-size="portrait">Portrait</button>
+      <button type="button" data-size="wide" class="on">Wide</button>
+    </div>
+    <button type="button" id="exportBtn" class="primary">Export PNG</button>
+  </div>
+</header>
+
+<main>
+  <aside class="panel" id="controls">
+    <section>
+      <h2>1 &middot; Photos</h2>
+      <p class="note">Load your own photos, or try a sample. Nothing is uploaded.</p>
+      <div class="slots" id="photoSlots"></div>
+    </section>
+
+    <section>
+      <h2>2 &middot; Panels</h2>
+      <div class="seg" id="layoutPicker" role="group" aria-label="Panel layout">
+        <button type="button" data-layout="triple" class="on">Triple</button>
+        <button type="button" data-layout="duo">Duo</button>
+        <button type="button" data-layout="solo">Solo</button>
+      </div>
+      <div class="panel-pick" id="panelChips"></div>
+      <label class="row">Photo in this panel
+        <select id="panelPhoto"></select>
+      </label>
+      <label class="row">Zoom
+        <input type="range" id="panelZoom" min="100" max="250" value="115">
+        <span id="zoomRead">115%</span>
+      </label>
+      <p class="note">Drag on the cover to move the photo inside the selected panel.</p>
+    </section>
+
+    <section>
+      <h2>3 &middot; Caption</h2>
+      <label class="row">Title
+        <input type="text" id="captionText" value="NEON SUNSET" maxlength="28">
+      </label>
+      <label class="row">Tagline
+        <input type="text" id="taglineText" value="DRIVE INTO THE SUNSET" maxlength="40">
+      </label>
+      <label class="row">Title size
+        <input type="range" id="captionSize" min="70" max="130" value="100">
+        <span id="sizeRead">100%</span>
+      </label>
+      <div class="swatches" id="colorSwatches" role="group" aria-label="Title colour"></div>
+      <label class="check"><input type="checkbox" id="tiltToggle" checked> Tilted title</label>
+    </section>
+
+    <section>
+      <h2>4 &middot; Grade &amp; finish</h2>
+      <div class="seg" id="gradePicker" role="group" aria-label="Colour grade">
+        <button type="button" data-grade="sunset" class="on">Sunset</button>
+        <button type="button" data-grade="neon">Neon</button>
+        <button type="button" data-grade="noir">Noir</button>
+      </div>
+      <label class="check"><input type="checkbox" id="halftoneToggle" checked> Halftone dots</label>
+      <label class="check"><input type="checkbox" id="grainToggle" checked> Film grain</label>
+      <label class="check"><input type="checkbox" id="frameToggle" checked> White frame</label>
+    </section>
+
+    <p class="steps"><b>1</b> Load a photo &nbsp;&rarr;&nbsp; <b>2</b> Arrange panels &nbsp;&rarr;&nbsp; <b>3</b> Export PNG</p>
+  </aside>
+
+  <section class="stage">
+    <div class="stage-bar">
+      <span id="stageLabel">Wide &middot; 1920 &times; 1080</span>
+      <span id="stageHint">Click a panel to select it</span>
+    </div>
+    <div class="canvas-wrap"><canvas id="cover" width="1920" height="1080"></canvas></div>
+    <p class="hint">Drag on the cover to move the selected panel&rsquo;s photo &middot; scroll to zoom &middot; three sizes: 1080&times;1080, 1080&times;1350, 1920&times;1080</p>
+  </section>
+</main>
+
+<script src="src/samples.js"></script>
+<script src="src/render.js"></script>
+<script src="src/editor.js"></script>
+</body>
+</html>

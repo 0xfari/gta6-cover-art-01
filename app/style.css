@@ -1,0 +1,162 @@
+/* Sunset Cover Studio — editor theme. Dark stage, sunset accents. */
+:root {
+  --bg: #0d0a14;
+  --card: #171226;
+  --card2: #1e1830;
+  --line: #2c2344;
+  --ink: #f4eefc;
+  --muted: #a99cc4;
+  --sunset: #ff7a18;
+  --pink: #ff2e88;
+  --cyan: #22d3ee;
+  --gold: #ffd319;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.5 "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+body.shot header, body.shot aside, body.shot .stage-bar, body.shot .hint {
+  display: none !important;
+}
+body.shot main { display: block; }
+body.shot .stage { padding: 0; }
+body.shot .canvas-wrap { border: 0; border-radius: 0; background: #000; padding: 0; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: linear-gradient(90deg, #1a0b2e, #3d1042 55%, #57200f);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand .sun {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: radial-gradient(circle at 50% 65%, #ffe9a8 0%, #ff9a3c 45%, #ff2e88 78%, #7a1e6e 100%);
+  box-shadow: 0 0 18px rgba(255, 122, 24, 0.55);
+  flex: none;
+}
+.brand h1 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  font-weight: 900;
+  font-family: "Arial Black", "Helvetica Neue", Arial, sans-serif;
+}
+.brand p { margin: 0; color: var(--muted); font-size: 12px; }
+
+.top-actions { display: flex; align-items: center; gap: 12px; }
+
+.seg { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button {
+  border: 0; background: transparent; color: var(--muted);
+  padding: 7px 12px; font: inherit; cursor: pointer;
+}
+.seg button:hover { color: var(--ink); }
+.seg button.on { background: var(--sunset); color: #1a0b00; font-weight: 700; }
+
+button.primary {
+  border: 0; border-radius: 8px; cursor: pointer;
+  padding: 9px 18px; font: inherit; font-weight: 800;
+  color: #fff; background: linear-gradient(90deg, var(--sunset), var(--pink));
+  box-shadow: 0 2px 14px rgba(255, 46, 136, 0.45);
+}
+button.primary:hover { filter: brightness(1.12); }
+
+main { display: flex; align-items: flex-start; gap: 18px; padding: 18px 20px 26px; }
+
+.panel { width: 320px; flex: none; }
+.panel section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold);
+}
+.note { color: var(--muted); font-size: 12px; margin: 6px 0 10px; }
+.steps { color: var(--muted); font-size: 12px; text-align: center; }
+.steps b { color: var(--sunset); }
+
+.slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.slot {
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  min-height: 86px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 6px; padding: 6px; text-align: center; cursor: pointer;
+  background: var(--card2); color: var(--muted); font-size: 12px;
+  background-size: cover; background-position: center;
+}
+.slot.filled { border-style: solid; color: #fff; text-shadow: 0 1px 4px #000; }
+.slot button {
+  border: 0; background: rgba(13, 10, 20, 0.75); color: var(--ink);
+  border-radius: 6px; padding: 3px 8px; font: inherit; font-size: 11px; cursor: pointer;
+}
+.slot input[type="file"] { display: none; }
+
+.panel-pick { display: flex; gap: 6px; margin: 10px 0; }
+.panel-pick button {
+  flex: 1; border: 1px solid var(--line); background: var(--card2);
+  color: var(--muted); border-radius: 7px; padding: 6px 0;
+  font: inherit; font-size: 12px; cursor: pointer;
+}
+.panel-pick button.on { border-color: var(--sunset); color: #fff; background: #2b1a33; }
+
+.row {
+  display: flex; align-items: center; gap: 8px;
+  margin: 10px 0; font-size: 13px;
+}
+.row input[type="text"], .row select {
+  flex: 1; min-width: 0;
+  background: var(--card2); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 7px;
+  padding: 7px 9px; font: inherit;
+}
+.row input[type="range"] { flex: 1; accent-color: var(--sunset); }
+.row span { color: var(--muted); font-size: 12px; min-width: 38px; text-align: right; }
+
+.swatches { display: flex; gap: 8px; margin: 10px 0; }
+.swatches button {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid transparent; cursor: pointer; padding: 0;
+}
+.swatches button.on { border-color: #fff; box-shadow: 0 0 0 2px var(--sunset); }
+
+.check { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-size: 13px; cursor: pointer; }
+.check input { accent-color: var(--sunset); }
+
+.stage { flex: 1; min-width: 0; }
+.stage-bar {
+  display: flex; justify-content: space-between; gap: 12px;
+  color: var(--muted); font-size: 12px; margin-bottom: 8px;
+}
+.canvas-wrap {
+  background: #05030a;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+}
+.canvas-wrap canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  cursor: grab;
+  touch-action: none;
+}
+.canvas-wrap canvas:active { cursor: grabbing; }
+.hint { color: var(--muted); font-size: 12px; margin: 8px 2px 0; }
