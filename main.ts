@@ -1,22 +1,17 @@
-// main.ts — hands the app in for the GTA 6 cover art bounty.
-//
-// It copies app/ and screenshots/ from this repository into the output
-// directory and writes output/dossier.json with buildDossier from the
-// kit's vendor/makefun-app.ts. The grader runs it twice; both runs write
-// the same bytes. Outside the grader, MAKEFUN_OUTPUT_DIR stands in for
-// /output. Node 22, standard library only.
-import { cpSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+// main.ts — dossier builder for Sunset Cover Studio.
+// Node 22, standard library only. Copies app/ + screenshots/ into
+// $MAKEFUN_OUTPUT_DIR (default /output) and writes dossier.json there
+// with buildDossier from vendor/makefun-app.ts. Two runs produce
+// byte-identical output.
+import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildDossier } from "./vendor/makefun-app.ts";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)));
-const OUTPUT_DIR = resolve(process.env.MAKEFUN_OUTPUT_DIR ?? "/output");
+const OUT_DIR = resolve(process.env.MAKEFUN_OUTPUT_DIR || "/output");
 
-// The gate's own caps, from the competition rules: dossier text at most
-// 160 KiB, at most 4 screenshots of at most 256 KiB each, app/ at most
-// 993 files and 48 MiB, paths at most 1000 bytes.
-const DOSSIER_CAPS = {
+const CAPS = {
   text_max_bytes: 163840,
   screenshots: { max: 4, max_bytes: 262144 },
   app_max_files: 993,
@@ -24,14 +19,33 @@ const DOSSIER_CAPS = {
   app_path_max_bytes: 1000,
 };
 
-rmSync(OUTPUT_DIR, { recursive: true, force: true });
-mkdirSync(OUTPUT_DIR, { recursive: true });
-cpSync(join(REPO_ROOT, "app"), join(OUTPUT_DIR, "app"), { recursive: true });
-cpSync(join(REPO_ROOT, "screenshots"), join(OUTPUT_DIR, "screenshots"), {
-  recursive: true,
-});
-const dossier = buildDossier(REPO_ROOT, DOSSIER_CAPS);
-writeFileSync(join(OUTPUT_DIR, "dossier.json"), dossier);
-console.log(
-  `wrote ${OUTPUT_DIR}: app/ + screenshots/ + dossier.json (${dossier.length} bytes)`,
-);
+function main(): void {
+  rmSync(OUT_DIR, { recursive: true, force: true });
+  mkdirSync(OUT_DIR, { recursive: true });
+  const appSrc = join(REPO_ROOT, "app");
+  const shotsSrc = join(REPO_ROOT, "screenshots");
+  if (!existsSync(appSrc)) {
+    throw new Error(`app/ not found under ${REPO_ROOT} — refusing to write an empty dossier`);
+  }
+  cpSync(appSrc, join(OUT_DIR, "app"), { recursive: true });
+  if (existsSync(shotsSrc)) {
+    cpSync(shotsSrc, join(OUT_DIR, "screenshots"), { recursive: true });
+  } else {
+    console.warn("warning: screenshots/ not found — dossier will carry no screenshots");
+  }
+  // buildDossier returns the dossier bytes (Uint8Array) — write them raw.
+  // JSON.stringify of a byte array would bloat it into an index-keyed
+  // object (~20x the size), so handle strings, byte arrays and objects.
+  const dossier = buildDossier(REPO_ROOT, CAPS);
+  const outPath = join(OUT_DIR, "dossier.json");
+  if (typeof dossier === "string") {
+    writeFileSync(outPath, dossier, "utf8");
+  } else if (dossier instanceof Uint8Array) {
+    writeFileSync(outPath, dossier);
+  } else {
+    writeFileSync(outPath, JSON.stringify(dossier, null, 2) + "\n", "utf8");
+  }
+  console.log(`dossier written to ${join(OUT_DIR, "dossier.json")}`);
+}
+
+main();

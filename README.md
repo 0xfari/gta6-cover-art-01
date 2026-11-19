@@ -14,6 +14,7 @@ Load up to three photos (or try the three built-in samples), arrange them
 across three, two or one diagonal panels, crop and position each panel by
 dragging, write and edit the caption, pick a grade (Sunset, Neon, Noir),
 and export in the common post sizes: 1080×1080, 1080×1350, 1920×1080.
+Shuffle picks a random grade and layout, and Ctrl/⌘+E exports the PNG.
 Three steps from a photo to a PNG.
 
 Everything here is original: no Rockstar Games logo, artwork or font.

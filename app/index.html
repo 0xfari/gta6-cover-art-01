@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -9,91 +9,131 @@
 <body>
 <header class="topbar">
   <div class="brand">
-    <span class="sun" aria-hidden="true"></span>
+    <span class="brand-sun" aria-hidden="true"></span>
     <div>
       <h1>SUNSET COVER STUDIO</h1>
-      <p>GTA-style poster maker &middot; photos never leave your machine</p>
+      <p>GTA-style poster maker · photos never leave your machine</p>
     </div>
   </div>
   <div class="top-actions">
-    <div class="seg" id="sizePicker" role="group" aria-label="Export size">
-      <button type="button" data-size="square">Square</button>
-      <button type="button" data-size="portrait">Portrait</button>
-      <button type="button" data-size="wide" class="on">Wide</button>
+    <div class="seg" id="sizeSeg" role="group" aria-label="Cover size">
+      <button type="button" data-value="square">Square</button>
+      <button type="button" data-value="portrait">Portrait</button>
+      <button type="button" data-value="wide" class="active">Wide</button>
     </div>
-    <button type="button" id="exportBtn" class="primary">Export PNG</button>
+    <button type="button" id="shuffleBtn" class="btn ghost" title="Random grade + layout">Shuffle</button>
+    <button type="button" id="exportBtn" class="btn primary" title="Export PNG (Ctrl/⌘+E)">Export PNG</button>
+    <span class="kbd-hint">Ctrl/⌘+E</span>
   </div>
 </header>
 
-<main>
-  <aside class="panel" id="controls">
+<div class="layout">
+  <aside class="sidebar">
     <section>
-      <h2>1 &middot; Photos</h2>
+      <h2>1 · Photos</h2>
       <p class="note">Load your own photos, or try a sample. Nothing is uploaded.</p>
-      <div class="slots" id="photoSlots"></div>
+      <div class="slots">
+        <div class="slot" id="slot-A">
+          <span class="slot-name">Photo A</span>
+          <img class="slot-thumb" alt="" hidden>
+          <div class="slot-btns">
+            <button type="button" class="btn small slot-upload">Upload</button>
+            <button type="button" class="btn small slot-sample">Sample</button>
+          </div>
+          <input type="file" id="file-A" accept="image/*" hidden>
+        </div>
+        <div class="slot" id="slot-B">
+          <span class="slot-name">Photo B</span>
+          <img class="slot-thumb" alt="" hidden>
+          <div class="slot-btns">
+            <button type="button" class="btn small slot-upload">Upload</button>
+            <button type="button" class="btn small slot-sample">Sample</button>
+          </div>
+          <input type="file" id="file-B" accept="image/*" hidden>
+        </div>
+        <div class="slot" id="slot-C">
+          <span class="slot-name">Photo C</span>
+          <img class="slot-thumb" alt="" hidden>
+          <div class="slot-btns">
+            <button type="button" class="btn small slot-upload">Upload</button>
+            <button type="button" class="btn small slot-sample">Sample</button>
+          </div>
+          <input type="file" id="file-C" accept="image/*" hidden>
+        </div>
+      </div>
     </section>
 
     <section>
-      <h2>2 &middot; Panels</h2>
-      <div class="seg" id="layoutPicker" role="group" aria-label="Panel layout">
-        <button type="button" data-layout="triple" class="on">Triple</button>
-        <button type="button" data-layout="duo">Duo</button>
-        <button type="button" data-layout="solo">Solo</button>
+      <h2>2 · Panels</h2>
+      <div class="seg" id="layoutSeg" role="group" aria-label="Panel layout">
+        <button type="button" data-value="triple" class="active">Triple</button>
+        <button type="button" data-value="duo">Duo</button>
+        <button type="button" data-value="solo">Solo</button>
       </div>
-      <div class="panel-pick" id="panelChips"></div>
-      <label class="row">Photo in this panel
+      <div class="chips" id="panelChips">
+        <button type="button" class="active">Panel 1</button>
+        <button type="button">Panel 2</button>
+        <button type="button">Panel 3</button>
+      </div>
+      <label class="field">
+        <span>Photo in this panel</span>
         <select id="panelPhoto"></select>
       </label>
-      <label class="row">Zoom
+      <label class="field">
+        <span>Zoom <output id="zoomVal">115%</output></span>
         <input type="range" id="panelZoom" min="100" max="250" value="115">
-        <span id="zoomRead">115%</span>
       </label>
       <p class="note">Drag on the cover to move the photo inside the selected panel.</p>
     </section>
 
     <section>
-      <h2>3 &middot; Caption</h2>
-      <label class="row">Title
-        <input type="text" id="captionText" value="NEON SUNSET" maxlength="28">
+      <h2>3 · Caption</h2>
+      <label class="field">
+        <span>Title</span>
+        <input type="text" id="captionInput" value="NEON SUNSET" maxlength="48">
       </label>
-      <label class="row">Tagline
-        <input type="text" id="taglineText" value="DRIVE INTO THE SUNSET" maxlength="40">
+      <label class="field">
+        <span>Tagline</span>
+        <input type="text" id="taglineInput" value="DRIVE INTO THE SUNSET" maxlength="64">
       </label>
-      <label class="row">Title size
-        <input type="range" id="captionSize" min="70" max="130" value="100">
-        <span id="sizeRead">100%</span>
+      <label class="field">
+        <span>Title size <output id="scaleVal">100%</output></span>
+        <input type="range" id="captionScale" min="60" max="140" value="100">
       </label>
-      <div class="swatches" id="colorSwatches" role="group" aria-label="Title colour"></div>
+      <div class="swatches" aria-label="Title colour">
+        <button type="button" class="swatch active" data-color="#ffffff" style="background:#ffffff" aria-label="White"></button>
+        <button type="button" class="swatch" data-color="#ffd94d" style="background:#ffd94d" aria-label="Gold"></button>
+        <button type="button" class="swatch" data-color="#ff5da2" style="background:#ff5da2" aria-label="Pink"></button>
+        <button type="button" class="swatch" data-color="#35e0ff" style="background:#35e0ff" aria-label="Cyan"></button>
+      </div>
       <label class="check"><input type="checkbox" id="tiltToggle" checked> Tilted title</label>
     </section>
 
     <section>
-      <h2>4 &middot; Grade &amp; finish</h2>
-      <div class="seg" id="gradePicker" role="group" aria-label="Colour grade">
-        <button type="button" data-grade="sunset" class="on">Sunset</button>
-        <button type="button" data-grade="neon">Neon</button>
-        <button type="button" data-grade="noir">Noir</button>
+      <h2>4 · Grade &amp; finish</h2>
+      <div class="seg" id="gradeSeg" role="group" aria-label="Colour grade">
+        <button type="button" data-value="sunset" class="active">Sunset</button>
+        <button type="button" data-value="neon">Neon</button>
+        <button type="button" data-value="noir">Noir</button>
       </div>
       <label class="check"><input type="checkbox" id="halftoneToggle" checked> Halftone dots</label>
       <label class="check"><input type="checkbox" id="grainToggle" checked> Film grain</label>
       <label class="check"><input type="checkbox" id="frameToggle" checked> White frame</label>
     </section>
-
-    <p class="steps"><b>1</b> Load a photo &nbsp;&rarr;&nbsp; <b>2</b> Arrange panels &nbsp;&rarr;&nbsp; <b>3</b> Export PNG</p>
   </aside>
 
-  <section class="stage">
-    <div class="stage-bar">
-      <span id="stageLabel">Wide &middot; 1920 &times; 1080</span>
-      <span id="stageHint">Click a panel to select it</span>
+  <main class="stage">
+    <div class="stage-head">
+      <span id="sizeLabel">Wide · 1920 × 1080</span>
+      <span class="note">Click a panel to select it</span>
     </div>
-    <div class="canvas-wrap"><canvas id="cover" width="1920" height="1080"></canvas></div>
-    <p class="hint">Drag on the cover to move the selected panel&rsquo;s photo &middot; scroll to zoom &middot; three sizes: 1080&times;1080, 1080&times;1350, 1920&times;1080</p>
-  </section>
-</main>
+    <div class="cover-wrap">
+      <canvas id="cover" width="1920" height="1080"></canvas>
+    </div>
+    <p id="hint">Drag on the cover to move the selected panel's photo · scroll to zoom · three sizes: 1080×1080, 1080×1350, 1920×1080</p>
+  </main>
+</div>
 
-<script src="src/samples.js"></script>
-<script src="src/render.js"></script>
-<script src="src/editor.js"></script>
+<script type="module" src="src/editor.js"></script>
 </body>
 </html>
